@@ -97,5 +97,12 @@ describe('TournamentScores Contract (Unit Tests)', function () {
     expect(retrievedScores).to.deep.equal(scoreIds)
   })
 
+  // it('Should emit ScoresSumitted', async function () {
+
+  //   await expect(tournamentScores.ScoresSumitted(1, [2, 3, 4], [5, 6, 7]))
+  //     .to.emit(tournamentScores, 'ScoresSumitted')
+  //     .withArgs(42, 'foo')
+  // })
+
   // Add more unit tests for other functions as needed
 })

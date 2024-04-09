@@ -16,6 +16,8 @@ contract TournamentScores {
     // TODO maybe we are going to send all calls from the deployer / owner of the contract!!!
     // TODO this would mean there will be only address accesing the contract which will be one associated with the website. ONE WALLET accessing the contract all the time
 
+    event MyEvent(string message);
+
     // ? Event emitted when scores are submitted
     event ScoresSubmitted(
         address indexed participant,
@@ -60,5 +62,9 @@ contract TournamentScores {
         address participant
     ) external view returns (uint256[] memory) {
         return participants[tournamentId][participant].scoreIds;
+    }
+
+    function emitMyEvent(string calldata s) public {
+        emit MyEvent(s);
     }
 }
