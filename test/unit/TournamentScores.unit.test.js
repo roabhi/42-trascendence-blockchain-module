@@ -97,5 +97,21 @@ describe('TournamentScores Contract (Unit Tests)', function () {
     expect(retrievedScores).to.deep.equal(scoreIds)
   })
 
+  it('Should emit emitMyEvent with Hello World string', async function () {
+    await expect(tournamentScores.emitMyEvent('Hello World'))
+      .to.emit(tournamentScores, 'MyEvent')
+      .withArgs('Hello World')
+
+    // await expect(tournamentScores.ScoresSumitted(1, [2, 3, 4], [5, 6, 7]))
+    //   .to.emit(tournamentScores, 'ScoresSumitted')
+    //   .withArgs(42, 'foo')
+  })
+
+  it('Should emit ScoresSumited event with values of 1, [2,3,4], [4,5,6]', async function () {
+    await expect(tournamentScores.emitScoresSubmitted(1, [2, 3, 4], [5, 6, 7]))
+      .to.emit(tournamentScores, 'ScoresSubmitted')
+      .withArgs(1, [2, 3, 4], [5, 6, 7])
+  })
+
   // Add more unit tests for other functions as needed
 })

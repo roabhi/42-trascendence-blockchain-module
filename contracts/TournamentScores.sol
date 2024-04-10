@@ -1,6 +1,8 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.8;
 
+import "hardhat/console.sol";
+
 contract TournamentScores {
     address public owner;
 
@@ -16,9 +18,13 @@ contract TournamentScores {
     // TODO maybe we are going to send all calls from the deployer / owner of the contract!!!
     // TODO this would mean there will be only address accesing the contract which will be one associated with the website. ONE WALLET accessing the contract all the time
 
+    event MyEvent(string message);
+
+    event myConstructorEvent();
+
     // ? Event emitted when scores are submitted
     event ScoresSubmitted(
-        address indexed participant,
+        // address indexed participant,
         uint256 indexed tournamentId,
         uint256[] scoreIds,
         uint256[] scores
@@ -26,6 +32,7 @@ contract TournamentScores {
 
     constructor() {
         owner = msg.sender;
+        emit myConstructorEvent();
     }
 
     modifier onlyOwner() {
@@ -42,6 +49,8 @@ contract TournamentScores {
         require(scoreIds.length == scores.length, "Arrays length mismatch");
         require(scoreIds.length > 0, "At least one score must be submitted");
 
+        console.log(msg.sender);
+
         // Update participant's scores and score IDs for the given tournament
         for (uint256 i = 0; i < scoreIds.length; i++) {
             participants[tournamentId][msg.sender].scores[scoreIds[i]] = scores[
@@ -51,7 +60,7 @@ contract TournamentScores {
         }
 
         // ? Emit ScoresSubmitted event
-        emit ScoresSubmitted(msg.sender, tournamentId, scoreIds, scores);
+        // emit ScoresSubmitted(msg.sender, tournamentId, scoreIds, scores);
     }
 
     // ? Function to get all score IDs for a participant in a particular tournament
@@ -60,5 +69,18 @@ contract TournamentScores {
         address participant
     ) external view returns (uint256[] memory) {
         return participants[tournamentId][participant].scoreIds;
+    }
+
+    function emitMyEvent(string calldata s) public {
+        //console.log("emitting", s);
+        emit MyEvent(s);
+    }
+
+    function emitScoresSubmitted(
+        uint256 tournamentId,
+        uint256[] memory scoreIds,
+        uint256[] memory scores
+    ) public {
+        emit ScoresSubmitted(tournamentId, scoreIds, scores);
     }
 }
