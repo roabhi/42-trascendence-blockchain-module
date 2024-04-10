@@ -7,24 +7,28 @@ async function main() {
   tournamentScores = await TournamentScores.deploy()
   await tournamentScores.waitForDeployment()
 
-  console.log(tournamentScores.address)
+  console.log(await tournamentScores.getAddress())
+  // console.log(tournamentScores.interface.fragments)
 
   const tx = await tournamentScores.emitMyEvent('Hello World')
 
   const receipt = await tx.wait()
 
-  // receipt.events.forEach((ev) => {
-  //   if (ev.event) {
-  //     emittedEvents.push({
-  //       name: ev.event,
-  //       args: ev.args,
-  //     })
-  //   }
+  // console.log(receipt)
+
+  // receipt.interface.fragments.forEach((el, i) => {
+  //   // if (ev.event) {
+  //   //   emittedEvents.push({
+  //   //     name: ev.event,
+  //   //     args: ev.args,
+  //   //   })
+  //   // }
+  //   console.log(el, i)
   // })
   // console.log(`emittedEvents: `, emittedEvents)
 
-  // for (const event of receipt.events) {
-  //   console.log(`Event ${event.event} with args ${event.args}`)
+  // for (const event of receipt.interface.fragments) {
+  //   console.log(`Event ${event.name} with args ${event.args}`)
   // }
 }
 
