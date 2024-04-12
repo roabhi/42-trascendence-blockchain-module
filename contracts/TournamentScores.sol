@@ -49,7 +49,7 @@ contract TournamentScores {
         require(scoreIds.length == scores.length, "Arrays length mismatch");
         require(scoreIds.length > 0, "At least one score must be submitted");
 
-        console.log(msg.sender);
+        // console.log(msg.sender);
 
         // Update participant's scores and score IDs for the given tournament
         for (uint256 i = 0; i < scoreIds.length; i++) {

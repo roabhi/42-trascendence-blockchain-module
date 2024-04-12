@@ -1,0 +1,65 @@
+// * test/PongTheGameContract.unit.test.js
+
+const { expect } = require('chai')
+
+describe('PongTheGameContract', function () {
+  let PongTheGameContract
+  let pongTheGameContract
+  let owner
+  let addr1
+
+  beforeEach(async function () {
+    ;[owner, addr1] = await ethers.getSigners()
+    PongTheGameContract = await ethers.getContractFactory('PongTheGameContract')
+    pongTheGameContract = await PongTheGameContract.deploy()
+    await pongTheGameContract.waitForDeployment()
+  })
+
+  it('Should deploy the contract with the correct owner', async function () {
+    expect(await pongTheGameContract.owner()).to.equal(owner.address)
+  }) // ? check deploy
+
+  it('Should create and submit games for a tournament', async function () {
+    const player1 = { name: 'Player1', score: 10 }
+    const player2 = { name: 'Player2', score: 8 }
+    const game1 = { player1, player2 }
+    const game2 = {
+      player1: { name: 'Player3', score: 12 },
+      player2: { name: 'Player4', score: 6 },
+    }
+    const tournamentName = 'Test Tournament'
+
+    await pongTheGameContract.createAndSubmitGames(tournamentName, [
+      game1,
+      game2,
+    ])
+
+    const games = await pongTheGameContract.getGames(tournamentName)
+
+    expect(games.length).to.equal(2)
+    expect(games[0].player1.name).to.equal(player1.name)
+    expect(games[0].player1.score).to.equal(player1.score)
+    expect(games[0].player2.name).to.equal(player2.name)
+    expect(games[0].player2.score).to.equal(player2.score)
+    expect(games[1].player1.name).to.equal(game2.player1.name)
+    expect(games[1].player1.score).to.equal(game2.player1.score)
+    expect(games[1].player2.name).to.equal(game2.player2.name)
+    expect(games[1].player2.score).to.equal(game2.player2.score)
+  })
+
+  it('Should revert if submitting a new tournament with no games', async function () {
+    const tournamentName = 'Empty Tournament'
+
+    await expect(
+      pongTheGameContract.createAndSubmitGames(tournamentName, [])
+    ).to.be.revertedWith('No games submitted for the tournament')
+  })
+
+  it('Should revert if getting games for a non-existing tournament', async function () {
+    const nonExistingTournament = 'Non Existing Tournament'
+
+    await expect(
+      pongTheGameContract.getGames(nonExistingTournament)
+    ).to.be.revertedWith('Tournament not found')
+  })
+})
