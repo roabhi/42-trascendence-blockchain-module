@@ -27,16 +27,21 @@ describe('PongTheGameContract', function () {
       player1: { name: 'Player3', score: 12 },
       player2: { name: 'Player4', score: 6 },
     }
+    const game3 = {
+      player1: { name: 'Player1', score: 18 },
+      player2: { name: 'Player3', score: 3 },
+    }
     const tournamentName = 'Test Tournament'
 
     await pongTheGameContract.createAndSubmitGames(tournamentName, [
       game1,
       game2,
+      game3,
     ])
 
     const games = await pongTheGameContract.getGames(tournamentName)
 
-    expect(games.length).to.equal(2)
+    expect(games.length).to.equal(3)
     expect(games[0].player1.name).to.equal(player1.name)
     expect(games[0].player1.score).to.equal(player1.score)
     expect(games[0].player2.name).to.equal(player2.name)
@@ -45,6 +50,11 @@ describe('PongTheGameContract', function () {
     expect(games[1].player1.score).to.equal(game2.player1.score)
     expect(games[1].player2.name).to.equal(game2.player2.name)
     expect(games[1].player2.score).to.equal(game2.player2.score)
+
+    expect(games[2].player1.name).to.equal(game3.player1.name)
+    expect(games[2].player1.score).to.equal(game3.player1.score)
+    expect(games[2].player2.name).to.equal(game3.player2.name)
+    expect(games[2].player2.score).to.equal(game3.player2.score)
   })
 
   it('Should revert if submitting a new tournament with no games', async function () {

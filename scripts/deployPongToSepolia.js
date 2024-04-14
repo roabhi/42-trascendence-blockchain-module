@@ -30,11 +30,11 @@ async function main() {
 
   console.log(`Deployed contract to ${pongTheGame.target}`)
 
-  // if (network.config.chainId === 11155111 && process.env.ETHERSCAN_API_KEY) {
-  //   console.log('Awaiting block confirmations')
-  //   await pongTheGame.deploymentTransaction().wait(6) //wait 6 blocks prior to verify our contract
-  //   await verify(pongTheGame.target, [])
-  // }
+  if (network.config.chainId === 11155111 && process.env.ETHERSCAN_API_KEY) {
+    console.log('Awaiting block confirmations')
+    await pongTheGame.deploymentTransaction().wait(6) //wait 6 blocks prior to verify our contract
+    await verify(pongTheGame.target, [])
+  }
 }
 
 main()
