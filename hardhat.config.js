@@ -18,8 +18,8 @@ module.exports = {
   networks: {
     hardhat: {},
     sepolia: {
-      url: SEPOLIA_RPC_URL || '', // h
-      accounts: [PRIVATE_KEY] || '0key', // fe9d82463225b72a5a3bf31eed8b88436a627e7fa665807fdd443144550b5958
+      url: SEPOLIA_RPC_URL || '',
+      accounts: [PRIVATE_KEY] || '0key',
       chainId: 11155111,
       blockConfirmations: 6,
     },
@@ -31,9 +31,4 @@ module.exports = {
   etherscan: {
     apiKey: ETHERSCAN_API_KEY,
   },
-  // namedAccounts: {
-  //   deployer: {
-  //     default: 0,
-  //   },
-  // },
 }
